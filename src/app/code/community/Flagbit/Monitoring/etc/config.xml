@@ -30,6 +30,13 @@
         <log>
             <core>
                 <writer_model>Flagbit_Monitoring_Model_Log</writer_model><!-- Mage::log() Hook -->
+                <writer_models>
+                    <!-- Hackathon_Logger -->
+                    <flagbit_monitoring>
+                        <label>Flagbit_Monitoring</label>
+                        <class>Flagbit_Monitoring_Model_Log</class>
+                    </flagbit_monitoring>
+                </writer_models>
             </core>
         </log>
     </global>

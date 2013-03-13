@@ -9,11 +9,23 @@
 
 class Flagbit_Monitoring_Model_Log extends Zend_Log_Writer_Stream {
 
-    public function __construct($logFile) {
-
+    /**
+     * @param Stream $logFile
+     * @return Zend_Log_Writer_Abstract
+     */
+    public function __construct($logFile)
+    {
+        // added monitoring to exception log
         if( $logFile == 'exception.log' ) {
             return Mage::getModel('flagbit_monitoring/log_writer', array( 'logFile' => $logFile ));
         }
+
+        // send all Data to null if Hackathon_Logger is enabled
+        if(Mage::helper('flagbit_monitoring')->isModuleActive('Hackathon_Logger')){
+            return Mage::getModel('flagbit_monitoring/log_null', array( 'logFile' => $logFile ));
+        }
+
+        // return default Log Writer
         return new Zend_Log_Writer_Stream($logFile);
 
     }

@@ -20,7 +20,10 @@ class Flagbit_Monitoring_Model_Log_Writer extends Zend_Log_Writer_Stream {
         $line = $this->_formatter->format($event);
         Mage::getSingleton('flagbit_monitoring/agent')->send($line, 'Exception');
 
-        parent::_write($event);
+        // add compatibility to Hackathon_Logger
+        if(!Mage::helper('flagbit_monitoring')->isModuleActive('Hackathon_Logger')){
+            parent::_write($event);
+        }
     }
 
 }
