@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class Flagbit_Monitoring_Model_Agent_Zabbix extends Mage_Core_Model_Abstract implements Flagbit_AMonitoring_Model_Agent_Interface {
+class Flagbit_Monitoring_Model_Agent_Zabbix implements Flagbit_Monitoring_Model_Agent_Interface {
 
     const NAME = 'Zabbix';
 

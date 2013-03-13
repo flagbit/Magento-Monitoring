@@ -9,24 +9,39 @@
 
 class Flagbit_Monitoring_Model_Log extends Zend_Log_Writer_Stream {
 
-    /**
-     * @param Stream $logFile
-     * @return Zend_Log_Writer_Abstract
-     */
-    public function __construct($logFile)
+    const EXCEPTION_LOG = 'exception.log';
+    protected $_logfile = NULL;
+    protected $_shouldLog = NULL;
+
+
+    public function __construct($logFile, $mode = NULL)
     {
-        // added monitoring to exception log
-        if( $logFile == 'exception.log' ) {
-            return Mage::getModel('flagbit_monitoring/log_writer', array( 'logFile' => $logFile ));
+        $this->_logfile = $logFile;
+        return parent::__construct($logFile, $mode );
+    }
+
+    /**
+     * should log?
+     *
+     * @return bool
+     */
+    protected function _shouldLog()
+    {
+        if($this->_shouldLog === NULL){
+            $this->_shouldLog = Mage::helper('flagbit_monitoring')->isModuleActive('Hackathon_Logger') ? FALSE : TRUE;
+        }
+        return $this->_shouldLog;
+    }
+
+    protected function _write($event)
+    {
+        if($this->_shouldLog()){
+            parent::_write($event);
         }
 
-        // send all Data to null if Hackathon_Logger is enabled
-        if(Mage::helper('flagbit_monitoring')->isModuleActive('Hackathon_Logger')){
-            return Mage::getModel('flagbit_monitoring/log_null', array( 'logFile' => $logFile ));
+        if( FALSE !== strpos( $this->_logfile, self::EXCEPTION_LOG )) {
+            $line = $this->_formatter->format($event);
+            Mage::getSingleton('flagbit_monitoring/agent')->send($line, 'Exception');
         }
-
-        // return default Log Writer
-        return new Zend_Log_Writer_Stream($logFile);
-
     }
 }

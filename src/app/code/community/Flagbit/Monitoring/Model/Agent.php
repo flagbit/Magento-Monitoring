@@ -11,18 +11,28 @@ class Flagbit_Monitoring_Model_Agent {
 
     protected $_agents = array();
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->addAgent( Mage::getModel('flagbit_monitoring/agent_zabbix'));
     }
 
-    public function send($msg, $type) {
+    public function send($msg, $type)
+    {
         foreach( $this->_agents as $agent ) {
             $agent->send($msg, $type);
         }
     }
 
-    public function addAgent(Flagbit_Monitoring_Model_Agent_Interface $agent) {
+    /**
+     * add Agent
+     *
+     * @param Flagbit_Monitoring_Model_Agent_Interface $agent
+     * @return $this
+     */
+    public function addAgent(Flagbit_Monitoring_Model_Agent_Interface $agent)
+    {
         $this->_agents[$agent::NAME] = $agent;
+
         return $this;
     }
 
