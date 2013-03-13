@@ -40,4 +40,16 @@
             </core>
         </log>
     </global>
+    <crontab>
+        <jobs>
+            <flagbit_monitoring>
+                <schedule>
+                    <cron_expr>1 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>flagbit_monitoring/observer::reportscanner</model>
+                </run>
+            </flagbit_monitoring>
+        </jobs>
+    </crontab>
 </config>

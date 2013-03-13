@@ -10,38 +10,42 @@
 
 class Flagbit_Monitoring_Model_ReportScanner {
 
-    const REPORT_DIRECTORY = '/var/report';
+    protected $_reportDirectory = null;
     protected $_lastReport = null;
     protected $_count = null;
 
-    public function isDirectoryEmpty()
-    {
-        return $this->_scan();
+    public function __construct() {
+       $this->_reportDirectory = Mage::getBaseDir('var').'/report' ;
+    }
+
+    public function run() {
+        $this->_scan();
+        if( $this->_count == 0 ) {
+            return NULL;
+        } else {
+            return $this->_getLastReport();
+        }
     }
 
     protected function _scan()
     {
-        $dir = new DirectoryIterator( Flagbit_Monitoring_Model_ReportScanner::REPORT_DIRECTORY );
+        $dir = new DirectoryIterator( $this->_reportDirectory );
+        foreach( $dir as $file ){
+            if( $file->isDot() ) continue;
 
-        foreach($dir as $file ){
-            if( isset($this->_lastReport) ) {
+            if( NULL !== $this->_lastReport ) {
               if( $this->_lastReport->getMTime() < $file->getMTime() ) {
-                  $this->_lastReport = $file;
+                  $this->_lastReport = clone $file;
               }
             } else {
-               $this->_lastReport = $file;
+               $this->_lastReport = clone $file;
             }
             $this->_count++;
         }
     }
 
-    public function getCount()
+    protected function _getLastReport()
     {
-        return $this->_count;
-    }
-
-    public function getLastreport()
-    {
-        $report = serialize(file_get_contents($this->_lastReport->getFilename()));
+        return fgets( fopen($this->_lastReport->getPathname(),'r'));
     }
 }
