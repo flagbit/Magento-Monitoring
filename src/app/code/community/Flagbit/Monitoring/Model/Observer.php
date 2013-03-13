@@ -42,7 +42,7 @@ class Flagbit_Monitoring_Model_Observer {
         $reportScanner = Mage::getModel('flagbit_monitoring/reportscanner');
         $msg = $reportScanner->run();
         if( NULL !== $msg ) {
-            Mage::getSingleton('flagbit_monitoring/agent')->send( $msg, 'report');
+            Mage::getSingleton('flagbit_monitoring/agent')->send($reportScanner->run(), 'report');
         }
     }
 }
