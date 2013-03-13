@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <Flagbit_Monitoring>
+            <version>0.0.2</version>
+        </Flagbit_Monitoring>
+    </modules>
+    <global>
+        <helpers>
+            <flagbit_monitoring>
+                <class>Flagbit_Monitoring_Helper</class>
+            </flagbit_monitoring>
+        </helpers>
+        <models>
+            <flagbit_monitoring>
+                <class>Flagbit_Monitoring_Model</class>
+            </flagbit_monitoring>
+        </models>
+        <events>
+            <controller_front_init_before>
+                <observers>
+                    <flagbit_monitoring>
+                        <type>Singleton</type>
+                        <class>Flagbit_Monitoring_Model_Observer</class>
+                        <method>registerShutdown</method>
+                    </flagbit_monitoring>
+                </observers>
+            </controller_front_init_before>
+        </events>
+        <log>
+            <core>
+                <writer_model>Flagbit_Monitoring_Model_Log</writer_model><!-- Mage::log() Hook -->
+            </core>
+        </log>
+    </global>
+</config>
