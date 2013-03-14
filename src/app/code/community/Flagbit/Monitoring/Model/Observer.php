@@ -33,7 +33,7 @@ class Flagbit_Monitoring_Model_Observer {
             $msg = $error['message'] . "\nLine: " . $error['line'] . ' - File: ' . $error['file'];
 
             if (class_exists('Mage')) {
-                Mage::getSingleton('flagbit_monitoring/agent')->send($msg, $error['type']);
+                Mage::getSingleton('flagbit_monitoring/agent')->send($msg, Mage::helper('flagbit_monitoring')->getMapping( $error['type'] ));
             }
         }
     }
@@ -42,7 +42,7 @@ class Flagbit_Monitoring_Model_Observer {
         $reportScanner = Mage::getModel('flagbit_monitoring/reportscanner');
         $msg = $reportScanner->run();
         if( NULL !== $msg ) {
-            Mage::getSingleton('flagbit_monitoring/agent')->send($msg, 'report');
+            Mage::getSingleton('flagbit_monitoring/agent')->send($msg, Mage::helper('flagbit_monitoring')->getMapping( 'REPORT' ) );
         }
     }
 }

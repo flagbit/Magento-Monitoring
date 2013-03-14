@@ -41,7 +41,7 @@ class Flagbit_Monitoring_Model_Log extends Zend_Log_Writer_Stream {
 
         if( FALSE !== strpos( $this->_logfile, self::EXCEPTION_LOG )) {
             $line = $this->_formatter->format($event);
-            Mage::getSingleton('flagbit_monitoring/agent')->send($line, 'Exception');
+            Mage::getSingleton('flagbit_monitoring/agent')->send($line, Mage::helper('flagbit_monitoring')->getMapping('EXCEPTION') );
         }
     }
 }

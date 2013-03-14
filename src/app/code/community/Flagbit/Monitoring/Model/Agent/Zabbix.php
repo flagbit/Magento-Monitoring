@@ -18,6 +18,7 @@ class Flagbit_Monitoring_Model_Agent_Zabbix implements Flagbit_Monitoring_Model_
     protected $_socket = null;
     protected $_errnum = null;
     protected $_errstr = null;
+    protected $_timeout = null;
 
     protected $_request = null;
     protected $_header = null;
@@ -25,9 +26,12 @@ class Flagbit_Monitoring_Model_Agent_Zabbix implements Flagbit_Monitoring_Model_
     protected $_return = null;
 
     public function __construct() {
-        $this->_server = Mage::helper('flagbit_monitoring')->getServer();
-        $this->_port = Mage::helper('flagbit_monitoring')->getPort();
-        $this->_hostname = Mage::helper('flagbit_monitoring')->getHostname();
+
+        $helper = Mage::helper('flagbit_monitoring');
+        $this->_server = $helper->getServer();
+        $this->_port = $helper->getPort();
+        $this->_hostname = $helper->getHostname();
+        $this->_timeout = 15;
 
         $this->_body = (object)array(
             "request" => "sender data",
@@ -55,7 +59,7 @@ class Flagbit_Monitoring_Model_Agent_Zabbix implements Flagbit_Monitoring_Model_
 
     protected function _getSocket() {
         if( NULL === $this->_socket  ) {
-            $this->_socket = @fsockopen($this->_server,$this->_port,$this->_errnum,$this->_errstr,15);
+            $this->_socket = @fsockopen($this->_server,$this->_port,$this->_errnum,$this->_errstr,$this->_timeout);
         }
         if( !is_resource( $this->_socket ) )  {
              $exception = (self::NAME . "Socket Exception #$this->_errnum : $this->_errstr");

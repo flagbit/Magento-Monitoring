@@ -42,9 +42,9 @@
     </global>
     <default>
         <monitoring>
-            <server></server>
-            <port></port>
-            <hostname></hostname>
+            <server>monitoring.flagbit.com</server>
+            <port>10051</port>
+            <hostname>ma22560.plusserver.de</hostname>
         </monitoring>
     </default>
     <crontab>

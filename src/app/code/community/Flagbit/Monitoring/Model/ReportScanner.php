@@ -46,6 +46,6 @@ class Flagbit_Monitoring_Model_ReportScanner {
 
     protected function _getLastReport()
     {
-        return fgets( fopen($this->_lastReport->getPathname(),'r'));
+        return file_get_conents($this->_lastReport->getPathname());
     }
 }
