@@ -7,36 +7,21 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class Flagbit_Monitoring_Model_Agent_Zabbix implements Flagbit_Monitoring_Model_Agent_Interface {
+class Flagbit_Monitoring_Model_Agent_Zabbix extends Flagbit_Monitoring_Model_Agent_abstract {
 
-    const NAME = 'Zabbix';
-
-    protected $_server = null;
-    protected $_port = null;
-    protected $_hostname = null;
-
-    protected $_socket = null;
-    protected $_errnum = null;
-    protected $_errstr = null;
-    protected $_timeout = null;
-
-    protected $_request = null;
-    protected $_header = null;
-    protected $_body = null;
-    protected $_return = null;
+    /**
+     * Agent's Name
+     */
+    const NAME = 'zabbix';
 
     public function __construct() {
-
-        $helper = Mage::helper('flagbit_monitoring');
-        $this->_server = $helper->getServer();
-        $this->_port = $helper->getPort();
-        $this->_hostname = $helper->getHostname();
-        $this->_timeout = 15;
 
         $this->_body = (object)array(
             "request" => "sender data",
             "data" => array(),
         );
+
+        parent::__construct();
     }
 
     protected function _setData($data) {
@@ -55,17 +40,6 @@ class Flagbit_Monitoring_Model_Agent_Zabbix implements Flagbit_Monitoring_Model_
         $this->_body = json_encode($body);
         $size = strlen( $this->_body );
         $this->_request = pack( "a4CV2a*", "ZBXD", 1, $size, ( $size >> 32 ), $this->_body );
-    }
-
-    protected function _getSocket() {
-        if( NULL === $this->_socket  ) {
-            $this->_socket = @fsockopen($this->_server,$this->_port,$this->_errnum,$this->_errstr,$this->_timeout);
-        }
-        if( !is_resource( $this->_socket ) )  {
-             $exception = (self::NAME . "Socket Exception #$this->_errnum : $this->_errstr");
-             throw new Exception( $exception );
-        }
-        return $this->_socket;
     }
 
     public function send($msg, $type) {
@@ -99,10 +73,10 @@ class Flagbit_Monitoring_Model_Agent_Zabbix implements Flagbit_Monitoring_Model_
                         "response" => "failed",
                         "info" => "Invalid response",
                     );
-                     Mage::log( $this->_return, null, 'zabbix.log', true);
+                     Mage::log( $this->_return, null, 'monitoring_'.self::NAME.'.log', true);
             }
         } catch (Exception $e) {
-            Mage::log( $e, null, 'zabbix.log', true);
+            Mage::log( $e, null, 'monitoring_'.self::NAME.'.log', true);
         }
     }
 

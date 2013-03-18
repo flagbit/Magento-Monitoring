@@ -7,5 +7,5 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class Flagbit_Monitoring_Model_Index extends Mage_Shell_Compiler {
+class Flagbit_Monitoring_Model_Index {
 }

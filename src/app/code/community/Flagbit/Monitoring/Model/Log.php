@@ -10,10 +10,23 @@
 class Flagbit_Monitoring_Model_Log extends Zend_Log_Writer_Stream {
 
     const EXCEPTION_LOG = 'exception.log';
+
+    /**
+     * @var Stream|null
+     */
     protected $_logfile = NULL;
+
+    /**
+     * @var boolean|null
+     */
     protected $_shouldLog = NULL;
 
-
+    /**
+     * overload parent::__construct
+     *
+     * @param Stream $logFile
+     * @param string|null $mode
+     */
     public function __construct($logFile, $mode = NULL)
     {
         $this->_logfile = $logFile;
@@ -33,6 +46,12 @@ class Flagbit_Monitoring_Model_Log extends Zend_Log_Writer_Stream {
         return $this->_shouldLog;
     }
 
+    /**
+     * log writter
+     *
+     * @param array $event
+     * @return void
+     */
     protected function _write($event)
     {
         if($this->_shouldLog()){
