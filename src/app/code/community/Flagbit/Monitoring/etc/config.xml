@@ -40,21 +40,23 @@
             </core>
         </log>
     </global>
-    <dev>
-        <flagbit_monitoring>
-            <enabled></enabled>
-            <zabbix_server></zabbix_server>
-            <port></port>
-            <host></host>
-        </flagbit_monitoring>
-        <flagbit_monitoring_mapping>
-            <report>REPORT</report>
-            <exception>EXCEPTION</exception>
-            <error>E_ERROR</error>
-            <recoverable_error>E_RECOVERABLE_ERROR</recoverable_error>
-            <parse_error>E_PARSE</parse_error>
-        </flagbit_monitoring_mapping>
-    </dev>
+    <default>
+        <dev>
+            <flagbit_monitoring>
+                <enabled>0</enabled>
+                <zabbix_server></zabbix_server>
+                <port>10051</port>
+                <host></host>
+            </flagbit_monitoring>
+            <flagbit_monitoring_mapping>
+                <report>magento.report</report>
+                <exception>magento.exception</exception>
+                <error>magento.e_error</error>
+                <recoverable_error>magento.e_recoverable_error</recoverable_error>
+                <parse_error>magento.e_parse_error</parse_error>
+            </flagbit_monitoring_mapping>
+        </dev>
+    </default>
     <crontab>
         <jobs>
             <flagbit_monitoring>

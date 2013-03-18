@@ -70,7 +70,7 @@ class Flagbit_Monitoring_Model_Agent_Zabbix implements Flagbit_Monitoring_Model_
 
     public function send($msg, $type) {
 
-        $this->_setData( array('test.item' => 'testit'.time()) );
+        $this->_setData( array($type => $msg) );
 
         try {
             fputs( $this->_getSocket(), $this->_request);

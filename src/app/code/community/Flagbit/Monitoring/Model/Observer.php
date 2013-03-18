@@ -9,6 +9,11 @@
 
 class Flagbit_Monitoring_Model_Observer {
 
+    /**
+     * register shutdown function
+     *
+     * @param Varien_Event_Observer $event
+     */
     public function registerShutdown(Varien_Event_Observer $event)
     {
         register_shutdown_function(array('Flagbit_Monitoring_Model_Observer', 'shutdownHandler'));
@@ -33,13 +38,36 @@ class Flagbit_Monitoring_Model_Observer {
             $msg = $error['message'] . "\nLine: " . $error['line'] . ' - File: ' . $error['file'];
 
             if (class_exists('Mage')) {
-                Mage::getSingleton('flagbit_monitoring/agent')->send($msg, Mage::helper('flagbit_monitoring')->getMapping( $error['type'] ));
+                $typeString = null;
+                switch($error['type']){
+
+                    case E_ERROR:
+                        $typeString = 'E_ERROR';
+                        break;
+
+                    case E_PARSE:
+                        $typeString = 'E_PARSE';
+                        break;
+
+                    case E_RECOVERABLE_ERROR:
+                        $typeString = 'E_RECOVERABLE_ERROR';
+                        break;
+                }
+                if(!empty($typeString)){
+                    Mage::getSingleton('flagbit_monitoring/agent')->send($msg, Mage::helper('flagbit_monitoring')->getMapping( $typeString));
+                }
             }
         }
     }
 
-    public function reportScanner() {
-        $reportScanner = Mage::getModel('flagbit_monitoring/reportscanner');
+    /**
+     * scan Magento report directory and send the newest Report to the monitoring Agent
+     *
+     * @param Varien_Event_Observer $event
+     */
+    public function reportScanner(Varien_Event_Observer $event)
+    {
+        $reportScanner = Mage::getModel('flagbit_monitoring/report_scanner');
         $msg = $reportScanner->run();
         if( NULL !== $msg ) {
             Mage::getSingleton('flagbit_monitoring/agent')->send($msg, Mage::helper('flagbit_monitoring')->getMapping( 'REPORT' ) );

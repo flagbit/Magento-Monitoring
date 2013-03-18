@@ -8,7 +8,7 @@
  */
 
 
-class Flagbit_Monitoring_Model_ReportScanner {
+class Flagbit_Monitoring_Model_Report_Scanner {
 
     protected $_reportDirectory = null;
     protected $_lastReport = null;
@@ -31,7 +31,9 @@ class Flagbit_Monitoring_Model_ReportScanner {
     {
         $dir = new DirectoryIterator( $this->_reportDirectory );
         foreach( $dir as $file ){
-            if( $file->isDot() ) continue;
+            if( !$file->isFile() ){
+                continue;
+            }
 
             if( NULL !== $this->_lastReport ) {
               if( $this->_lastReport->getMTime() < $file->getMTime() ) {
@@ -46,7 +48,7 @@ class Flagbit_Monitoring_Model_ReportScanner {
 
     protected function _getLastReport()
     {
-        $report = unserialize( fgets( fopen($this->_lastReport->getPathname(),'r')));
+        $report = unserialize( file_get_contents($this->_lastReport->getPathname()));
         return ( isset($report[0]) ) ? $report[0]:NULL;
     }
 }
