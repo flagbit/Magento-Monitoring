@@ -58,15 +58,15 @@ class Flagbit_Monitoring_Helper_Data extends Mage_Core_Helper_Abstract {
     /**
      * returns error alias
      *
-     * @param string $identifer
+     * @param string identifier
      * @return string
      */
     /**
      * @TODO: adding fallback in case StoreConfig is empty
      */
-    public function getMapping($identifer) {
+    public function getMapping($identifier) {
 
-        switch($identifer) {
+        switch($identifier) {
             case 'REPORT':
                 return Mage::getStoreConfig( self::REPORT );
                 break;

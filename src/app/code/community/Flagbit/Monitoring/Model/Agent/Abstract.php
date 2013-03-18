@@ -37,9 +37,24 @@ abstract class Flagbit_Monitoring_Model_Agent_Abstract implements Flagbit_Monito
      */
     protected $_timeout = null;
 
+    /**
+     * @var mixed|null
+     */
     protected $_request = null;
+
+    /**
+     * @var mixed|null
+     */
     protected $_header = null;
+
+    /**
+     * @var mixed|null
+     */
     protected $_body = null;
+
+    /***
+     * @var mixed|null
+     */
     protected $_return = null;
 
 
