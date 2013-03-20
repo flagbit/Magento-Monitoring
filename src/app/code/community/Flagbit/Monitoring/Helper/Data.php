@@ -33,16 +33,18 @@ class Flagbit_Monitoring_Helper_Data extends Mage_Core_Helper_Abstract {
      *
      * @return string
      */
-    public function getServer() {
+    public function getServer()
+    {
        return Mage::getStoreConfig( self::SERVER );
-   }
+    }
 
     /**
      * returns zabbix's server port
      *
      * @return string
      */
-    public function getPort() {
+    public function getPort()
+    {
         return Mage::getStoreConfig( self::PORT );
     }
 
@@ -51,7 +53,8 @@ class Flagbit_Monitoring_Helper_Data extends Mage_Core_Helper_Abstract {
      *
      * @return string
      */
-    public function getHostname() {
+    public function getHostname()
+    {
         return Mage::getStoreConfig( self::HOSTNAME );
     }
 
@@ -64,7 +67,8 @@ class Flagbit_Monitoring_Helper_Data extends Mage_Core_Helper_Abstract {
     /**
      * @TODO: adding fallback in case StoreConfig is empty
      */
-    public function getMapping($identifier) {
+    public function getMapping($identifier)
+    {
 
         switch($identifier) {
             case 'REPORT':

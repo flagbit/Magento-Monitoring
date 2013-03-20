@@ -14,7 +14,8 @@ class Flagbit_Monitoring_Model_Agent_Zabbix extends Flagbit_Monitoring_Model_Age
      */
     const NAME = 'zabbix';
 
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->_body = (object)array(
             "request" => "sender data",
@@ -24,7 +25,13 @@ class Flagbit_Monitoring_Model_Agent_Zabbix extends Flagbit_Monitoring_Model_Age
         parent::__construct();
     }
 
-    protected function _setData($data) {
+    /**
+     * build a body
+     *
+     * @param $data
+     */
+    protected function _setData($data)
+    {
 
         $body = $this->_body;
 
@@ -42,8 +49,14 @@ class Flagbit_Monitoring_Model_Agent_Zabbix extends Flagbit_Monitoring_Model_Age
         $this->_request = pack( "a4CV2a*", "ZBXD", 1, $size, ( $size >> 32 ), $this->_body );
     }
 
-    public function send($msg, $type) {
-
+    /**
+     * send data to zabbix
+     *
+     * @param string $msg
+     * @param string $type
+     */
+    public function send($msg, $type)
+    {
         $this->_setData( array($type => $msg) );
 
         try {
@@ -69,6 +82,9 @@ class Flagbit_Monitoring_Model_Agent_Zabbix extends Flagbit_Monitoring_Model_Age
                     $this->_return["status"][$key] = $val;
                 }
             } else {
+
+                // connection failed
+
                 $this->_return = array(
                         "response" => "failed",
                         "info" => "Invalid response",
@@ -76,6 +92,9 @@ class Flagbit_Monitoring_Model_Agent_Zabbix extends Flagbit_Monitoring_Model_Age
                      Mage::log( $this->_return, null, 'monitoring_'.self::NAME.'.log', true);
             }
         } catch (Exception $e) {
+
+            // socket couldn't been initialized
+
             Mage::log( $e, null, 'monitoring_'.self::NAME.'.log', true);
         }
     }

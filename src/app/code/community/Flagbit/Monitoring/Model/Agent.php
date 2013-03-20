@@ -14,6 +14,9 @@ class Flagbit_Monitoring_Model_Agent {
      */
     protected $_agents = array();
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->addAgent( Mage::getModel('flagbit_monitoring/agent_zabbix'));
