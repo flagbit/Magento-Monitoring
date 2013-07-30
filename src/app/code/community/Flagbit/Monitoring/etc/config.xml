@@ -55,9 +55,6 @@
                 <recoverable_error>magento.e_recoverable_error</recoverable_error>
                 <parse_error>magento.e_parse_error</parse_error>
             </flagbit_monitoring_mapping>
-            <flagbit_monitoring_dataflow>
-                <interval>25</interval>
-            </flagbit_monitoring_dataflow>
         </dev>
     </default>
     <crontab>
