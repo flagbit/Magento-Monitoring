@@ -55,6 +55,9 @@
                 <recoverable_error>magento.e_recoverable_error</recoverable_error>
                 <parse_error>magento.e_parse_error</parse_error>
             </flagbit_monitoring_mapping>
+            <flagbit_monitoring_dataflow>
+                <interval>25</interval>
+            </flagbit_monitoring_dataflow>
         </dev>
     </default>
     <crontab>
@@ -69,4 +72,38 @@
             </flagbit_monitoring>
         </jobs>
     </crontab>
+    <flagbit_monitoring>
+        <identifers>
+            <REPORT>
+                <mapping>
+                    <config>dev/flagbit_monitoring_mapping/report</config>
+                </mapping>
+            </REPORT>
+            <EXCEPTION>
+                <mapping>
+                    <config>dev/flagbit_monitoring_mapping/exception</config>
+                </mapping>
+            </EXCEPTION>
+            <E_ERROR>
+                <mapping>
+                    <config>dev/flagbit_monitoring_mapping/error</config>
+                </mapping>
+            </E_ERROR>
+            <E_RECOVERABLE_ERROR>
+                <mapping>
+                    <config>dev/flagbit_monitoring_mapping/recoverable_error</config>
+                </mapping>
+            </E_RECOVERABLE_ERROR>
+            <E_PARSE>
+                <mapping>
+                    <config>dev/flagbit_monitoring_mapping/parse_error</config>
+                </mapping>
+            </E_PARSE>
+            <DEFAULT>
+                <mapping>
+                    <value>unknown</value>
+                </mapping>
+            </DEFAULT>
+        </identifers>
+    </flagbit_monitoring>
 </config>

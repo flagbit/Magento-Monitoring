@@ -95,6 +95,7 @@
                         </recoverable_error>
                     </fields>
                 </flagbit_monitoring_mapping>
+
             </groups>
         </dev>
     </sections>

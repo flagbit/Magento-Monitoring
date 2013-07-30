@@ -9,6 +9,9 @@ class Flagbit_Monitoring_Helper_Data extends Mage_Core_Helper_Abstract {
     const PORT = 'dev/flagbit_monitoring/port';
     const HOSTNAME = 'dev/flagbit_monitoring/host';
 
+    const DATAFLOW_INTERVAL =  'dev/flagbit_monitoring_dataflow/interval';
+
+    const DATAFLOW = 'dev/flagbit_monitoring_mapping/dataflow';
     const REPORT = 'dev/flagbit_monitoring_mapping/report';
     const EXCEPTION = 'dev/flagbit_monitoring_mapping/exception';
     const E_RECOVERABLE_ERROR = 'dev/flagbit_monitoring_mapping/recoverable_error';
@@ -58,6 +61,12 @@ class Flagbit_Monitoring_Helper_Data extends Mage_Core_Helper_Abstract {
         return Mage::getStoreConfig( self::HOSTNAME );
     }
 
+
+    public function getDataflowInterval()
+    {
+        return Mage::getStoreConfig( self::DATAFLOW_INTERVAL );
+    }
+
     /**
      * returns error alias
      *
@@ -69,31 +78,20 @@ class Flagbit_Monitoring_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     public function getMapping($identifier)
     {
-
-        switch($identifier) {
-            case 'REPORT':
-                return Mage::getStoreConfig( self::REPORT );
-                break;
-
-            case 'EXCEPTION':
-                return Mage::getStoreConfig( self::EXCEPTION );
-                break;
-
-            case 'E_ERROR':
-                return  Mage::getStoreConfig( self::E_ERROR );
-                break;
-
-            case 'E_PARSE':
-                return Mage::getStoreConfig( self::E_PARSE );
-                break;
-
-            case 'E_RECOVERABLE_ERROR':
-                return Mage::getStoreConfig( self::E_RECOVERABLE_ERROR );
-                break;
-
-            default:
-                return 'UNKNOWN';
-                break;
+        $value = null;
+        $identifiers = Mage::getConfig()->getNode('flagbit_monitoring/identifers');
+        $identifierConfig = $identifiers->{$identifier};
+        if (!$identifierConfig || !$identifierConfig->mapping) {
+            $value = $identifiers->DEFAULT->mapping->value;
+        } else {
+            if( $identifierConfig->mapping->config ) {
+                $value = Mage::getStoreConfig( $identifierConfig->mapping->config );
+            } elseif( $identifierConfig->mapping->value ) {
+                $value = Mage::getStoreConfig( $identifierConfig->mapping->value );
+            } else {
+                $value = $identifiers->DEFAULT->mapping->value;
+            }
         }
+        return $value;
     }
 }
