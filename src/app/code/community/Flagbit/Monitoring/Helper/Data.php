@@ -9,9 +9,6 @@ class Flagbit_Monitoring_Helper_Data extends Mage_Core_Helper_Abstract {
     const PORT = 'dev/flagbit_monitoring/port';
     const HOSTNAME = 'dev/flagbit_monitoring/host';
 
-    const DATAFLOW_INTERVAL =  'dev/flagbit_monitoring_dataflow/interval';
-
-    const DATAFLOW = 'dev/flagbit_monitoring_mapping/dataflow';
     const REPORT = 'dev/flagbit_monitoring_mapping/report';
     const EXCEPTION = 'dev/flagbit_monitoring_mapping/exception';
     const E_RECOVERABLE_ERROR = 'dev/flagbit_monitoring_mapping/recoverable_error';
@@ -61,20 +58,11 @@ class Flagbit_Monitoring_Helper_Data extends Mage_Core_Helper_Abstract {
         return Mage::getStoreConfig( self::HOSTNAME );
     }
 
-
-    public function getDataflowInterval()
-    {
-        return Mage::getStoreConfig( self::DATAFLOW_INTERVAL );
-    }
-
-    /**
+    /*
      * returns error alias
      *
      * @param string identifier
      * @return string
-     */
-    /**
-     * @TODO: adding fallback in case StoreConfig is empty
      */
     public function getMapping($identifier)
     {
